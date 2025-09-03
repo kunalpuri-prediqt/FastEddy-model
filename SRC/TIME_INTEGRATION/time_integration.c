@@ -81,10 +81,10 @@ int timeInit(){
    } //end if(mpi_rank_world == 0)
 
    /*Broadcast the parameters across mpi_ranks*/
-   MPI_Bcast(&timeMethod, 1, MPI_INTEGER, 0, MPI_COMM_WORLD);
-   MPI_Bcast(&Nt, 1, MPI_INTEGER, 0, MPI_COMM_WORLD);
+   MPI_Bcast(&timeMethod, 1, MPI_INT, 0, MPI_COMM_WORLD);
+   MPI_Bcast(&Nt, 1, MPI_INT, 0, MPI_COMM_WORLD);
    MPI_Bcast(&dt, 1, MPI_FLOAT, 0, MPI_COMM_WORLD);
-   MPI_Bcast(&NtBatch, 1, MPI_INTEGER, 0, MPI_COMM_WORLD);
+   MPI_Bcast(&NtBatch, 1, MPI_INT, 0, MPI_COMM_WORLD);
    
 #ifdef DEBUG
    MPI_Barrier(MPI_COMM_WORLD);

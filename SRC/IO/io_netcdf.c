@@ -332,10 +332,10 @@ int ioGetNetCDFinFileVars(int ncid, int Nx, int Ny, int Nz, int Nh){
          }//end if mpi_rank_world == 0
          MPI_Barrier(MPI_COMM_WORLD);
          //Broadcast the varFound flag for this variable
-         MPI_Bcast(&varFound, 1, MPI_INTEGER, 0, MPI_COMM_WORLD);
+         MPI_Bcast(&varFound, 1, MPI_INT, 0, MPI_COMM_WORLD);
          if(varFound==1){
            //Broadcast the nDims read by the rrot rank for this variable
-           MPI_Bcast(&nDims, 1, MPI_INTEGER, 0, MPI_COMM_WORLD);
+           MPI_Bcast(&nDims, 1, MPI_INT, 0, MPI_COMM_WORLD);
            //Now scatter the field across ranks
            if((nDims == 2)||(nDims == 3)){
              errorCode = fempi_ScatterVariable(Nx,Ny,1,Nxp,Nyp,1,Nh,ioBuffFieldTransposed2D,field);
@@ -428,9 +428,9 @@ int ioGetNetCDFinFileVars(int ncid, int Nx, int Ny, int Nz, int Nh){
         }//end if mpi_rank_world==0
         if(varFound==1){
           //Broadcast the nDims read by the rrot rank for this variable
-          MPI_Bcast(&nDims, 1, MPI_INTEGER, 0, MPI_COMM_WORLD);
+          MPI_Bcast(&nDims, 1, MPI_INT, 0, MPI_COMM_WORLD);
           if(nDims == 1){
-            MPI_Bcast(intField, 1, MPI_INTEGER, 0, MPI_COMM_WORLD);
+            MPI_Bcast(intField, 1, MPI_INT, 0, MPI_COMM_WORLD);
           }//end if nDims == 1
         }//end if varFound == 1
       } else {

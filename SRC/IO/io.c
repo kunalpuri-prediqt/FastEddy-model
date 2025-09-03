@@ -95,7 +95,7 @@ int ioInit(){
 
    /*Broadcast the parameters across mpi_ranks*/
    /*ioOutputMode*/
-   MPI_Bcast(&ioOutputMode, 1, MPI_INTEGER, 0, MPI_COMM_WORLD);
+   MPI_Bcast(&ioOutputMode, 1, MPI_INT, 0, MPI_COMM_WORLD);
    /*inPath string*/
    strLength = 0;
    if(mpi_rank_world == 0){
@@ -105,11 +105,11 @@ int ioInit(){
          strLength = 0;
       }
    } //end if(mpi_rank_world == 0)
-   MPI_Bcast(&strLength, 1, MPI_INTEGER, 0, MPI_COMM_WORLD);
+   MPI_Bcast(&strLength, 1, MPI_INT, 0, MPI_COMM_WORLD);
    if(mpi_rank_world != 0){
       inPath = (char *) malloc(strLength*sizeof(char));
    } //if a non-root mpi_rank
-   MPI_Bcast(inPath, strLength, MPI_CHARACTER, 0, MPI_COMM_WORLD);
+   MPI_Bcast(inPath, strLength, MPI_CHAR, 0, MPI_COMM_WORLD);
      
    /*inFile string*/
    strLength = 0;
@@ -120,12 +120,12 @@ int ioInit(){
          strLength = 0;
       }
    } //end if(mpi_rank_world == 0)
-   MPI_Bcast(&strLength, 1, MPI_INTEGER, 0, MPI_COMM_WORLD);
+   MPI_Bcast(&strLength, 1, MPI_INT, 0, MPI_COMM_WORLD);
    if(mpi_rank_world != 0){
       inFile = (char *) malloc(strLength*sizeof(char));
    } //if a non-root mpi_rank
    if(strLength > 0){
-      MPI_Bcast(inFile, strLength, MPI_CHARACTER, 0, MPI_COMM_WORLD);
+      MPI_Bcast(inFile, strLength, MPI_CHAR, 0, MPI_COMM_WORLD);
    }else{
       if(mpi_rank_world != 0){
          inFile = NULL;
@@ -143,11 +143,11 @@ int ioInit(){
          strLength = 0;
       }
    } //end if(mpi_rank_world == 0)
-   MPI_Bcast(&strLength, 1, MPI_INTEGER, 0, MPI_COMM_WORLD);
+   MPI_Bcast(&strLength, 1, MPI_INT, 0, MPI_COMM_WORLD);
    if(mpi_rank_world != 0){
       outPath = (char *) malloc(strLength*sizeof(char));
    } //if a non-root mpi_rank
-   MPI_Bcast(outPath, strLength, MPI_CHARACTER, 0, MPI_COMM_WORLD);
+   MPI_Bcast(outPath, strLength, MPI_CHAR, 0, MPI_COMM_WORLD);
     
    /*outFileBase string*/
    strLength = 0;
@@ -158,13 +158,13 @@ int ioInit(){
          strLength = 0;
       }
    } //end if(mpi_rank_world == 0)
-   MPI_Bcast(&strLength, 1, MPI_INTEGER, 0, MPI_COMM_WORLD);
+   MPI_Bcast(&strLength, 1, MPI_INT, 0, MPI_COMM_WORLD);
    if(mpi_rank_world != 0){
       outFileBase = (char *) malloc(strLength*sizeof(char));
    } //if a non-root mpi_rank
-   MPI_Bcast(outFileBase, strLength, MPI_CHARACTER, 0, MPI_COMM_WORLD);
+   MPI_Bcast(outFileBase, strLength, MPI_CHAR, 0, MPI_COMM_WORLD);
    /*frqOutput*/
-   MPI_Bcast(&frqOutput, 1, MPI_INTEGER, 0, MPI_COMM_WORLD);
+   MPI_Bcast(&frqOutput, 1, MPI_INT, 0, MPI_COMM_WORLD);
    /*end-- Broadcast the parameters... */
 
    /*Allocate IO private arrays*/

@@ -135,12 +135,12 @@ int gridInit(){
          strLength = 0;
       }
    } //end if(mpi_rank_world == 0)
-   MPI_Bcast(&strLength, 1, MPI_INTEGER, 0, MPI_COMM_WORLD);
+   MPI_Bcast(&strLength, 1, MPI_INT, 0, MPI_COMM_WORLD);
    if(mpi_rank_world != 0){
       gridFile = (char *) malloc(strLength*sizeof(char));
    } //if a non-root mpi_rank
    if(strLength > 0){
-     MPI_Bcast(gridFile, strLength, MPI_CHARACTER, 0, MPI_COMM_WORLD);
+     MPI_Bcast(gridFile, strLength, MPI_CHAR, 0, MPI_COMM_WORLD);
    }else{
      if(mpi_rank_world != 0){
        gridFile = NULL;
@@ -152,27 +152,27 @@ int gridInit(){
          strLength = strlen(topoFile)+1;
       }
    } //end if(mpi_rank_world == 0)
-   MPI_Bcast(&strLength, 1, MPI_INTEGER, 0, MPI_COMM_WORLD);
+   MPI_Bcast(&strLength, 1, MPI_INT, 0, MPI_COMM_WORLD);
    if(mpi_rank_world != 0){
       topoFile = (char *) malloc(strLength*sizeof(char));
    } //if a non-root mpi_rank
    if(strLength > 0){
-     MPI_Bcast(topoFile, strLength, MPI_CHARACTER, 0, MPI_COMM_WORLD);
+     MPI_Bcast(topoFile, strLength, MPI_CHAR, 0, MPI_COMM_WORLD);
    }else{
      if(mpi_rank_world != 0){
        topoFile = NULL;
      } //if a non-root mpi_rank
    }
    // non-string parameters   --------------------- 
-   MPI_Bcast(&Nx, 1, MPI_INTEGER, 0, MPI_COMM_WORLD);
-   MPI_Bcast(&Ny, 1, MPI_INTEGER, 0, MPI_COMM_WORLD);
-   MPI_Bcast(&Nz, 1, MPI_INTEGER, 0, MPI_COMM_WORLD);
-   MPI_Bcast(&Nh, 1, MPI_INTEGER, 0, MPI_COMM_WORLD);
+   MPI_Bcast(&Nx, 1, MPI_INT, 0, MPI_COMM_WORLD);
+   MPI_Bcast(&Ny, 1, MPI_INT, 0, MPI_COMM_WORLD);
+   MPI_Bcast(&Nz, 1, MPI_INT, 0, MPI_COMM_WORLD);
+   MPI_Bcast(&Nh, 1, MPI_INT, 0, MPI_COMM_WORLD);
    MPI_Bcast(&d_xi, 1, MPI_FLOAT, 0, MPI_COMM_WORLD);
    MPI_Bcast(&d_eta, 1, MPI_FLOAT, 0, MPI_COMM_WORLD);
    MPI_Bcast(&d_zeta, 1, MPI_FLOAT, 0, MPI_COMM_WORLD);
-   MPI_Bcast(&coordHorizHalos, 1, MPI_INTEGER, 0, MPI_COMM_WORLD);
-   MPI_Bcast(&verticalDeformSwitch, 1, MPI_INTEGER, 0, MPI_COMM_WORLD);
+   MPI_Bcast(&coordHorizHalos, 1, MPI_INT, 0, MPI_COMM_WORLD);
+   MPI_Bcast(&verticalDeformSwitch, 1, MPI_INT, 0, MPI_COMM_WORLD);
    MPI_Bcast(&verticalDeformFactor, 1, MPI_FLOAT, 0, MPI_COMM_WORLD);
    MPI_Bcast(&verticalDeformQuadCoeff, 1, MPI_FLOAT, 0, MPI_COMM_WORLD);
 

@@ -107,8 +107,8 @@ int fempi_Init(){
       printParameter("numProcsY", "Number of cores to be used for horizontal domain decomposition in Y");
    }
    /*Broadcast the parameters across mpi_ranks*/ 
-   MPI_Bcast(&numProcsX, 1, MPI_INTEGER, 0, MPI_COMM_WORLD);
-   MPI_Bcast(&numProcsY, 1, MPI_INTEGER, 0, MPI_COMM_WORLD);
+   MPI_Bcast(&numProcsX, 1, MPI_INT, 0, MPI_COMM_WORLD);
+   MPI_Bcast(&numProcsY, 1, MPI_INT, 0, MPI_COMM_WORLD);
 
    /* Determine x and y -direction rankIDs under 2-d horizontal domain decomposition */
    rankXid = mpi_rank_world%numProcsX;

@@ -37,17 +37,21 @@ DEFINES = -DCUB_IGNORE_DEPRECATED_CPP_DIALECT -DTHRUST_IGNORE_DEPRECATED_CPP_DIA
 
 
 TEST_CFLAGS = -Wall -m64 ${DEFINES} ${INCLUDES} ${OTHER_INCLUDES}
-ARCH_CU_FLAGS = -arch=sm_70
+ARCH_CU_FLAGS = -gencode arch=compute_60,code=sm_60 \
+                -gencode arch=compute_70,code=sm_70 \
+                -gencode arch=compute_80,code=sm_80 \
+                -gencode arch=compute_89,code=sm_89 \
+                -gencode arch=compute_90,code=sm_90
 TEST_CU_CFLAGS = ${ARCH_CU_FLAGS} -m64 -std=c++11 ${DEFINES} ${INCLUDES} ${OTHER_INCLUDES}
 
 L_CPPFLAGS =
 
 #OTHER_INCLUDES =
 # For compilation on NCAR's Casper or Derecho supercomputers use the OTHER_INCLUDES below
-OTHER_INCLUDES = -I${NCAR_ROOT_MPI}/include
+OTHER_INCLUDES = -I${HOME}/prediqt/include
 
-TEST_LDFLAGS = -L.
-TEST_CU_LDFLAGS = -L.
+TEST_LDFLAGS = -L. -L/usr/local/cuda/lib64
+TEST_CU_LDFLAGS = -L. -L/usr/local/cuda/lib64
 
 TEST_LIBS = -lm -lmpi -lstdc++ -lcurand -lcudart -lnetcdf
 TEST_CU_LIBS = -lm -lmpi -lcudart

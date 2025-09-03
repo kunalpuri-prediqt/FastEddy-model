@@ -836,12 +836,12 @@ int hydro_coreInit(){
          strLength = 0;
        }
      } //end if(mpi_rank_world == 0)
-     MPI_Bcast(&strLength, 1, MPI_INTEGER, 0, MPI_COMM_WORLD);
+     MPI_Bcast(&strLength, 1, MPI_INT, 0, MPI_COMM_WORLD);
      if(strLength > 0){
        if(mpi_rank_world != 0){
          hydroBndysFileBase = (char *) malloc(strLength*sizeof(char));
        } //if a non-root mpi_rank
-       MPI_Bcast(hydroBndysFileBase, strLength, MPI_CHARACTER, 0, MPI_COMM_WORLD);
+       MPI_Bcast(hydroBndysFileBase, strLength, MPI_CHAR, 0, MPI_COMM_WORLD);
      }
      //Allocate for a full hydroBndysFile string (including up to 16 counter-digit characters)
      hydroBndysFile = (char *) malloc(strLength+16*sizeof(char));
@@ -976,12 +976,12 @@ int hydro_coreInit(){
          strLength = 0;
        }
      } //end if(mpi_rank_world == 0)
-     MPI_Bcast(&strLength, 1, MPI_INTEGER, 0, MPI_COMM_WORLD);
+     MPI_Bcast(&strLength, 1, MPI_INT, 0, MPI_COMM_WORLD);
      if(strLength > 0){
        if(mpi_rank_world != 0){
           srcAuxScFile = (char *) malloc(strLength*sizeof(char));
        } //if a non-root mpi_rank
-       MPI_Bcast(srcAuxScFile, strLength, MPI_CHARACTER, 0, MPI_COMM_WORLD);
+       MPI_Bcast(srcAuxScFile, strLength, MPI_CHAR, 0, MPI_COMM_WORLD);
      }//endif strLength of srcAuxScFile > 0 
      if(mpi_rank_world != 0){
        srcAuxScTemporalType = malloc(NhydroAuxScalars*sizeof(int));
@@ -2896,8 +2896,8 @@ int srcAuxScConstructor(){
     dim0 = (int)count[dimids[0]];
     dim1 = (int)count[dimids[1]];
   }//end if mpi_rank == 0 
-  MPI_Bcast(&dim0, 1, MPI_INTEGER, 0, MPI_COMM_WORLD);
-  MPI_Bcast(&dim1, 1, MPI_INTEGER, 0, MPI_COMM_WORLD);
+  MPI_Bcast(&dim0, 1, MPI_INT, 0, MPI_COMM_WORLD);
+  MPI_Bcast(&dim1, 1, MPI_INT, 0, MPI_COMM_WORLD);
   /*Assert that the value of the dimension in the file matches the value from the FastEddy parameters file*/
   if(dim0 != NhydroAuxScalars){
     printf("%d/%d: ERROR!! srcAuxScFile dimension (NhydroAuxScalars) %d does not match NhydroAuxScalars=%d from the parameter file. EXITING NOW!!!!\n",mpi_rank_world,mpi_size_world,dim0,NhydroAuxScalars);
@@ -2986,9 +2986,9 @@ int srcAuxScConstructor(){
     }
   }//end if mpi_rank == 0
   //Broadcast values to all ranks
-  MPI_Bcast(&srcAuxScTemporalType[0], NhydroAuxScalars, MPI_INTEGER, 0, MPI_COMM_WORLD);
-  MPI_Bcast(&srcAuxScGeometryType[0], NhydroAuxScalars, MPI_INTEGER, 0, MPI_COMM_WORLD);
-  MPI_Bcast(&srcAuxScMassSpecType[0], NhydroAuxScalars, MPI_INTEGER, 0, MPI_COMM_WORLD);
+  MPI_Bcast(&srcAuxScTemporalType[0], NhydroAuxScalars, MPI_INT, 0, MPI_COMM_WORLD);
+  MPI_Bcast(&srcAuxScGeometryType[0], NhydroAuxScalars, MPI_INT, 0, MPI_COMM_WORLD);
+  MPI_Bcast(&srcAuxScMassSpecType[0], NhydroAuxScalars, MPI_INT, 0, MPI_COMM_WORLD);
   MPI_Bcast(&srcAuxScStartSeconds[0], NhydroAuxScalars, MPI_FLOAT, 0, MPI_COMM_WORLD);
   MPI_Bcast(&srcAuxScDurationSeconds[0], NhydroAuxScalars, MPI_FLOAT, 0, MPI_COMM_WORLD);
   MPI_Bcast(&srcAuxScLocation[0], NhydroAuxScalars*3, MPI_FLOAT, 0, MPI_COMM_WORLD);

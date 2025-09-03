@@ -65,9 +65,9 @@ int fecuda_Init(){
    } //end if(mpi_rank_world == 0)
 
    /*Broadcast the parameters across mpi_ranks*/
-   MPI_Bcast(&tBx, 1, MPI_INTEGER, 0, MPI_COMM_WORLD);
-   MPI_Bcast(&tBy, 1, MPI_INTEGER, 0, MPI_COMM_WORLD);
-   MPI_Bcast(&tBz, 1, MPI_INTEGER, 0, MPI_COMM_WORLD);
+   MPI_Bcast(&tBx, 1, MPI_INT, 0, MPI_COMM_WORLD);
+   MPI_Bcast(&tBy, 1, MPI_INT, 0, MPI_COMM_WORLD);
+   MPI_Bcast(&tBz, 1, MPI_INT, 0, MPI_COMM_WORLD);
 
    /*Setup the threads per block, dim3 vector*/
    errorCode = fecuda_DeviceSetup(tBx, tBy, tBz);
