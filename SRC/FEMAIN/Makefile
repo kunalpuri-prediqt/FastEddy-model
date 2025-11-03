@@ -37,10 +37,7 @@ DEFINES = -DCUB_IGNORE_DEPRECATED_CPP_DIALECT -DTHRUST_IGNORE_DEPRECATED_CPP_DIA
 
 
 TEST_CFLAGS = -Wall -m64 ${DEFINES} ${INCLUDES} ${OTHER_INCLUDES}
-ARCH_CU_FLAGS = -gencode arch=compute_60,code=sm_60 \
-                -gencode arch=compute_70,code=sm_70 \
-                -gencode arch=compute_80,code=sm_80 \
-                -gencode arch=compute_89,code=sm_89 \
+ARCH_CU_FLAGS = -gencode arch=compute_89,code=sm_89 \
                 -gencode arch=compute_90,code=sm_90
 TEST_CU_CFLAGS = ${ARCH_CU_FLAGS} -m64 -std=c++11 ${DEFINES} ${INCLUDES} ${OTHER_INCLUDES}
 
