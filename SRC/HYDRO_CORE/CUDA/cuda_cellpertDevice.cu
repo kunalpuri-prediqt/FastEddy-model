@@ -1,3 +1,18 @@
+/* FastEddy®: SRC/HYDRO_CORE/CUDA/cuda_cellpertDevice.cu
+* ©2016 University Corporation for Atmospheric Research
+* 
+* This file is licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+* http://www.apache.org/licenses/LICENSE-2.0
+* 
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
 /*---CELL PERTURBATION METHOD*/
 __constant__ int cellpertSelector_d;    /*CP method selector: 0= off, 1= on */
 __constant__ int cellpert_sw2b_d;       /* switch to do: 0= all four lateral boundaries, 1= only south & west boundaries, 2= only south boundary */
@@ -82,7 +97,15 @@ extern "C" int cuda_hydroCoreDeviceBuildCPmethod(int simTime_it){
    curandSetPseudoRandomGeneratorSeed(gen,simTime_it);
    curandGenerateUniform(gen,randcp_d,n_tot);
 
-   cudaDevice_hydroCoreCompleteCellPerturbation<<<grid, tBlock>>>(hydroFlds_d,randcp_d,mpi_rank_world,numProcsX,numProcsY);
+#ifdef URBAN_EXT
+   if(urbanSelector > 0){
+     cudaDevice_hydroCoreCompleteCellPerturbationMasked<<<grid, tBlock>>>(hydroFlds_d,randcp_d,mpi_rank_world,numProcsX,numProcsY,building_mask_d);
+   }else{
+     cudaDevice_hydroCoreCompleteCellPerturbation<<<grid, tBlock>>>(hydroFlds_d,randcp_d,mpi_rank_world,numProcsX,numProcsY);
+   }
+#else
+     cudaDevice_hydroCoreCompleteCellPerturbation<<<grid, tBlock>>>(hydroFlds_d,randcp_d,mpi_rank_world,numProcsX,numProcsY);
+#endif
 
 //#define TIMERS_LEVEL2
 #ifdef TIMERS_LEVEL2
@@ -138,6 +161,33 @@ __global__ void cudaDevice_hydroCoreCompleteCellPerturbation(float* hydroFlds, f
    }//end if in the range of non-halo cells
 
 } // end cudaDevice_hydroCoreCompleteCellPerturbation()
+
+__global__ void cudaDevice_hydroCoreCompleteCellPerturbationMasked(float* hydroFlds, float* randcp_d, int my_mpi, int numpx, int numpy, float* bdg_mask){
+
+   int i,j,k,ijk;
+   int fldStride;
+   int iStride,jStride,kStride;
+
+   /*Establish necessary indices for spatial locality*/
+   i = (blockIdx.x)*blockDim.x + threadIdx.x;
+   j = (blockIdx.y)*blockDim.y + threadIdx.y;
+   k = (blockIdx.z)*blockDim.z + threadIdx.z;
+
+   fldStride = (Nx_d+2*Nh_d)*(Ny_d+2*Nh_d)*(Nz_d+2*Nh_d);
+   iStride = (Ny_d+2*Nh_d)*(Nz_d+2*Nh_d);
+   jStride = (Nz_d+2*Nh_d);
+   kStride = 1;
+
+   if((i >= iMin_d)&&(i < iMax_d) &&
+      (j >= jMin_d)&&(j < jMax_d) &&
+      (k >= kMin_d)&&(k < kMax_d) ){
+      if((k >= (cellpert_kbottom_d+Nh_d-1))&&(k <= (cellpert_ktop_d+Nh_d-1))){ // call to cell perturbation device kernel
+        ijk = i*iStride + j*jStride + k*kStride;
+        cudaDevice_CellPerturbationMasked(i,j,k,Nx_d,Ny_d,Nz_d,Nh_d,my_mpi,numpx,numpy,&hydroFlds[RHO_INDX*fldStride+ijk],&hydroFlds[THETA_INDX*fldStride+ijk],randcp_d,&bdg_mask[ijk]);
+      }
+   }//end if in the range of non-halo cells
+
+} // end cudaDevice_hydroCoreCompleteCellPerturbationMasked()
 
 /*----->>>>> __device__ void  cudaDevice_CellPerturbation();  --------------------------------------------------
 */
