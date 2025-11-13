@@ -29,7 +29,7 @@ TARGETS = \
 ################################################################################
 
 TEST_CC = mpicc
-TEST_CU_CC = nvcc
+TEST_CU_CC = nvcc -Xcompiler -std=gnu++17
 
 DEBUG_CFLAGS = -g 
 
@@ -38,7 +38,7 @@ DEFINES = -DCUB_IGNORE_DEPRECATED_CPP_DIALECT -DTHRUST_IGNORE_DEPRECATED_CPP_DIA
 TEST_CFLAGS = -Wall -m64 ${DEFINES} ${INCLUDES} ${OTHER_INCLUDES}
 ARCH_CU_FLAGS = -gencode arch=compute_89,code=sm_89 \
                 -gencode arch=compute_90,code=sm_90
-TEST_CU_CFLAGS = ${ARCH_CU_FLAGS} -m64 -std=c++11 ${DEFINES} ${INCLUDES} ${OTHER_INCLUDES}
+TEST_CU_CFLAGS = ${ARCH_CU_FLAGS} -m64 -std=c++17 ${DEFINES} ${INCLUDES} ${OTHER_INCLUDES}
 
 L_CPPFLAGS =
 

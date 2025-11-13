@@ -1557,12 +1557,14 @@ int hydro_coreInit(){
    refPressure = 1.0e5;       /* Reference pressure set constant to 1e5 Pascals or 1000 millibars) */
    Rv_Rg = R_vapor/R_gas;     /* Ratio R_vapor/R_gas*/
 
+   const float earthOmega = 2e-3; // 2*Earth's rotation rate in rad/s
+
    /* Coriolis-term constants */
    pi = acos(-1);   
    if(coriolisSelector > 0){
-     corioConstHorz = 1.45842e-4*sin(pi/180.0*coriolisLatitude); //1.45842e-4 = 2*Earth-Omega
+     corioConstHorz = earthOmega*sin(pi/180.0*coriolisLatitude); //1.45842e-4 = 2*Earth-Omega
      if(coriolisSelector > 1){  
-       corioConstVert = 1.45842e-4*cos(pi/180.0*coriolisLatitude);
+       corioConstVert = earthOmega*cos(pi/180.0*coriolisLatitude);
      }else{
        corioConstVert = 0.0;
      } //end if vert
