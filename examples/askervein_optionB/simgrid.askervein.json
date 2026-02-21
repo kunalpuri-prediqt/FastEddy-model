@@ -1,0 +1,10 @@
+{
+  "name_dom": "Askervein",
+  "FE_ref_GIS_nc": "./examples/askervein_optionB/prep/Askervein.nc",
+  "FE_params_file": "./examples/askervein_optionB/Askervein_OptionB.in",
+  "center_lat": 57.18,
+  "center_lon": -7.37,
+  "FE_new_nc_path": "./examples/askervein_optionB/prep/",
+  "name_dom_add": "",
+  "save_plot_opt": 0
+}
