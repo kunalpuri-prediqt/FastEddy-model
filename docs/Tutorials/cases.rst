@@ -23,3 +23,4 @@ Required tutorial resources including python utilities and Jupyter Notebooks are
    cases/CANOPY.rst
    cases/OFFSHORE.rst
    cases/DISPERSION.rst
+   cases/ASKERVEIN_OPTIONB.rst

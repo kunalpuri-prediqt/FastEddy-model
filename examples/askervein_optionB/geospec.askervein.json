@@ -1,0 +1,11 @@
+{
+  "name_dom": "Askervein",
+  "gis_root": "./examples/askervein_optionB/",
+  "gis_file": "inputs_gis.nc",
+  "nlcd_name": "LandCoverMetadata_Askervein.csv",
+  "water_cats": [],
+  "FE_dataset_path": "./examples/askervein_optionB/prep/",
+  "name_dom_add": "",
+  "gis_opt": 0,
+  "save_plot_opt": 0
+}
